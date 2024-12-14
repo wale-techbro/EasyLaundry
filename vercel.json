@@ -1,21 +1,15 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/:path+",
-      "destination": "/index.html"
+      "src": "app-process.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app-process.js"
     }
   ]
-    "version": 2,
-    "builds": [
-      {
-        "src": "app-process.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "app-process.js"
-      }
-    ]
 }

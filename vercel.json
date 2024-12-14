@@ -5,4 +5,17 @@
       "destination": "/index.html"
     }
   ]
+    "version": 2,
+    "builds": [
+      {
+        "src": "app-process.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "app-process.js"
+      }
+    ]
 }

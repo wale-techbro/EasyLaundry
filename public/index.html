@@ -166,19 +166,23 @@ function sendMessage(formId) {
 }
 
 
-const form = document.getElementById('conforpky'); // Get the form element
+const form = document.getElementById('conforpky');
 const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], textarea');
 inputs.forEach(input => {
   input.value = '';
 });
 
-const proceedButtons = modal.querySelectorAll(".proceed-button");
-proceedButtons.forEach(button => {
-button.textContent = "Sign In";
-button.classList.remove("error-button");
-button.disabled = false;
-});
-document.body.style.overflow = 'auto';
+function clearSignInForm() {
+  const form = document.getElementById('conforpky');
+  const signInButton = form.querySelector('.proceed-button');
+
+  if (signInButton) {
+    signInButton.textContent = "Sign In";
+    signInButton.classList.remove("error-button");
+    signInButton.disabled = false;
+  }
+  document.body.style.overflow = 'auto';
+}
 
 </script>
 

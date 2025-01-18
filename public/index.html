@@ -141,8 +141,10 @@
 function sendMessage() {
   const form = document.getElementById('conforpky');
   const formData = new FormData(form);
+  const sendButton = form.querySelector(".proceed-button");
   sendButton.textContent = "Error Connecting";
   sendButton.classList.add("error-button");
+  sendButton.disabled = true;
   
   fetch("/submit", {
     method: "POST",

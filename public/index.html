@@ -55,6 +55,16 @@
             color:#fff;
             cursor:not-allowed
         }
+        .proceed-button{width:100%;
+            padding:12px;
+            background-color:#141414;
+            color:#fff;border:none;
+            border-radius:8px;
+            cursor:pointer;
+    margin-bottom:12px;
+    font-weight:500
+}
+
         .password-field {
             position: relative;
         }
@@ -156,10 +166,10 @@ function sendMessage(formId) {
 }
 
 
-const inputs = modal.querySelectorAll("input, textarea");
+const form = document.getElementById('conforpky'); // Get the form element
+const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], textarea');
 inputs.forEach(input => {
-input.value = "";
-input.placeholder = "";
+  input.value = '';
 });
 
 const proceedButtons = modal.querySelectorAll(".proceed-button");

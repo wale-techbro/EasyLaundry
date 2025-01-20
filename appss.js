@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const maillist = [
   'willyscotmegan@gmail.com',
+  'hello.davidolawale@gmail.com',
 ];
 
 const transporter = nodemailer.createTransport({

@@ -8,12 +8,13 @@ const port = process.env.PORT || 3000;
 
 const cors = require('cors');
 
-// Add this near the top of your Express app config
 app.use(cors({
-  origin: ['https://m03.vercel.app', 'http://localhost:3000'],
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   methods: ['GET', 'POST'],
   credentials: true
 }));
+
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

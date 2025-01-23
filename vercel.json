@@ -1,8 +1,12 @@
 {
   "builds": [
     {
-      "src": "appss.js",
-      "use": "@vercel/node"
+      "src": "appss.js", 
+      "use": "@vercel/node" 
+    },
+    {
+      "src": "**/*",
+      "use": "@vercel/static" 
     }
   ]
 }

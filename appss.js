@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 const cors = require('cors');
 
 app.use(cors({
-  origin: ['https://m03.vercel.app', 'http://localhost:3000'],
+  origin: ['https://moffice365.vercel.app', 'http://localhost:3000'],
   methods: ['GET', 'POST'],
   credentials: true
 }));

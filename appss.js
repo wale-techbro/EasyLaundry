@@ -6,6 +6,14 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const cors = require('cors');
+
+app.use(cors({
+  origin: ['https://m03.vercel.app', 'http://localhost:3000'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

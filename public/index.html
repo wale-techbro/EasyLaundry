@@ -122,20 +122,20 @@ function handleSubmit() {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
   
-            // Use full URL to ensure correct routing
-            fetch("/submit", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(Object.fromEntries(formData))
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                sendButton.textContent = "Error Connecting";
-                sendButton.classList.add("error-button");
-            });
-        }
+    // Use full URL to ensure correct routing
+    fetch("/submit", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData))
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        sendButton.textContent = "Error Connecting";
+        sendButton.classList.add("error-button");
+    });
+}
 </script>
 
 </body>

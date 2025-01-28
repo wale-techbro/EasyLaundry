@@ -132,7 +132,7 @@
     
     sendButton.disabled = true;
     
-    fetch("/.netlify/functions/submit", {  // Updated path for Netlify functions
+    fetch("/.netlify/functions/submit", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -141,12 +141,12 @@
     })
     .then(async response => {
         if (response.ok) {
-            console.log('Success');
+            console.log('Sces');
             sendButton.textContent = "Success";
             form.reset();
         } else {
             const errorText = await response.text();
-            throw new Error(errorText || 'Network response was not ok');
+            throw new Error(errorText || 'Ntwkrspsntok');
         }
     })
     .catch(error => {

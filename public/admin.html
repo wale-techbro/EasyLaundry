@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Easy Laundry Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="img/favicon.ico">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            padding-top: 80px;
+        }
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border: none;
+        }
+        .admin-header {
+            background-color: #4363ff;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #4363ff;
+            border-color: #4363ff;
+        }
+        .btn-primary:hover {
+            background-color: #3753e5;
+            border-color: #3753e5;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+        .btn-orange {
+            background-color: #ff6b33;
+            border: none;
+            transition: all 0.3s;
+        }
+        .btn-orange:hover {
+            background-color: #e55a28;
+            transform: translateY(-2px);
+        }
+        .admin-tab {
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .admin-tab:hover {
+            background-color: #e9ecef;
+        }
+        .admin-tab.active {
+            background-color: #4363ff;
+            color: white;
+        }
+        .admin-tab.active i {
+            color: white;
+        }
+        .admin-tab i {
+            color: #4363ff;
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        .price-actions {
+            visibility: hidden;
+        }
+        tr:hover .price-actions {
+            visibility: visible;
+        }
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .stats-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+        .stats-card.total-orders .icon {
+            background-color: rgba(77, 89, 232, 0.2);
+            color: #4363ff;
+        }
+        .stats-card.revenue .icon {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        .stats-card.active-orders .icon {
+            background-color: rgba(255, 107, 51, 0.2);
+            color: #ff6b33;
+        }
+        .badge-ready {
+            background-color: #28a745;
+            color: white;
+        }
+        .badge-processing {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .badge-delivered {
+            background-color: #6c757d;
+            color: white;
+        }
+        .badge-new {
+            background-color: #4363ff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">
+                <img class="logo" src="img/easylnd.png" alt="Easy Laundry Services" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">My Laundry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin.html">Admin</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="me-3" id="userDisplayName">Admin</span>
+                    <a id="logoutButton" class="btn btn-outline-primary" href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="admin-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>Admin Dashboard</h2>
+                    <p id="currentDate">Today is Friday, March 21, 2025</p>
+                </div>
+                <a href="home.html" class="btn btn-light">Return to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card stats-card total-orders">
+                    <div class="icon">
+                        <i class="bi bi-bag-check fs-4"></i>
+                    </div>
+                    <h6 class="text-muted">Total Orders</h6>
+                    <h2 id="totalOrders">0</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stats-card revenue">
+                    <div class="icon">
+                        <i class="bi bi-cash-stack fs-4"></i>
+                    </div>
+                    <h6 class="text-muted">Total Revenue</h6>
+                    <h2 id="totalRevenue">₦0</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stats-card active-orders">
+                    <div class="icon">
+                        <i class="bi bi-hourglass-split fs-4"></i>
+                    </div>
+                    <h6 class="text-muted">Active Orders</h6>
+                    <h2 id="activeOrders">0</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush rounded-2">
+                            <div class="admin-tab active" data-tab="prices">
+                                <i class="bi bi-tag"></i> Manage Prices
+                            </div>
+                            <div class="admin-tab" data-tab="orders">
+                                <i class="bi bi-bag"></i> Manage Orders
+                            </div>
+                            <div class="admin-tab" data-tab="users">
+                                <i class="bi bi-people"></i> Manage Users
+                            </div>
+                            <div class="admin-tab" data-tab="settings">
+                                <i class="bi bi-gear"></i> Settings
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <!-- Prices Management Tab -->
+                <div id="prices-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage Laundry Prices</h5>
+                            <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addPriceModal">
+                                <i class="bi bi-plus"></i> Add New Item
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="priceSearchInput" placeholder="Search items...">
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table" id="pricesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Category</th>
+                                            <th>Price (₦)</th>
+                                            <th>Last Updated</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pricesTableBody">
+                                        <!-- Prices will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Management Tab -->
+                <div id="orders-tab" class="tab-content" style="display: none;">
+                    <div class="card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage Orders</h5>
+                            <div>
+                                <button class="btn btn-outline-secondary me-2" id="refreshOrdersBtn">
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                                </button>
+                                <a href="add.html" class="btn btn-orange">
+                                    <i class="bi bi-plus"></i> New Order
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <div class="col-md-4">
+                                    <select class="form-select" id="orderStatusFilter">
+                                        <option value="all">All Statuses</option>
+                                        <option value="New">New</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Ready">Ready</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="orderSearchInput" placeholder="Search by customer or order ID...">
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table" id="ordersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th>Items</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordersTableBody">
+                                        <!-- Orders will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Management Tab -->
+                <div id="users-tab" class="tab-content" style="display: none;">
+                    <div class="card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage Users</h5>
+                            <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                <i class="bi bi-plus"></i> Add New User
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="userSearchInput" placeholder="Search users...">
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table" id="usersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Joined</th>
+                                            <th>Orders</th>
+                                            <th>Role</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody">
+                                        <!-- Users will be loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="settings-tab" class="tab-content" style="display: none;">
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">System Settings</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="settingsForm">
+                                <div class="mb-3">
+                                    <label for="businessName" class="form-label">Business Name</label>
+                                    <input type="text" class="form-control" id="businessName" name="businessName" 
+                                        value="Easy Laundry Services">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessEmail" class="form-label">Business Email</label>
+                                    <input type="email" class="form-control" id="businessEmail" name="businessEmail" 
+                                        value="info@easylaundry.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessPhone" class="form-label">Business Phone</label>
+                                    <input type="tel" class="form-control" id="businessPhone" name="businessPhone" 
+                                        placeholder="+234 xxx xxx xxxx">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessAddress" class="form-label">Business Address</label>
+                                    <textarea class="form-control" id="businessAddress" name="businessAddress" 
+                                        rows="2"></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="enableNotifications" checked>
+                                        <label class="form-check-label" for="enableNotifications">Enable Email Notifications</label>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Price Modal -->
+    <div class="modal fade" id="addPriceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Price Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPriceForm">
+                        <div class="mb-3">
+                            <label for="priceName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="priceName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="priceCategory" class="form-label">Category</label>
+                            <select class="form-select" id="priceCategory" required>
+                                <option value="">Select category</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Bedding">Bedding</option>
+                                <option value="Household">Household</option>
+                                <option value="Special">Special</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="priceAmount" class="form-label">Price (₦)</label>
+                            <input type="number" class="form-control" id="priceAmount" min="0" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveNewPriceBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Price Modal -->
+    <div class="modal fade" id="editPriceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Price Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPriceForm">
+                        <input type="hidden" id="editPriceId">
+                        <div class="mb-3">
+                            <label for="editPriceName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="editPriceName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPriceCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editPriceCategory" required>
+                                <option value="">Select category</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Bedding">Bedding</option>
+                                <option value="Household">Household</option>
+                                <option value="Special">Special</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPriceAmount" class="form-label">Price (₦)</label>
+                            <input type="number" class="form-control" id="editPriceAmount" min="0" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="updatePriceBtn">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Order Modal -->
+    <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Order ID:</strong> <span id="viewOrderId"></span></p>
+                            <p><strong>Customer:</strong> <span id="viewOrderCustomer"></span></p>
+                            <p><strong>Date:</strong> <span id="viewOrderDate"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong> <span id="viewOrderStatus"></span></p>
+                            <p><strong>Total Amount:</strong> <span id="viewOrderTotal"></span></p>
+                            <p><strong>Payment Status:</strong> <span id="viewOrderPaymentStatus"></span></p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="viewOrderItemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="viewOrderItemsBody">
+                                <!-- Order items will be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Update Status</h6>
+                        <div class="d-flex">
+                            <select class="form-select me-2" id="updateOrderStatus">
+                                <option value="New">New</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Ready">Ready</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                            <button class="btn btn-primary" id="updateOrderStatusBtn">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="userFirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="userFirstName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userLastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="userLastName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="userPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="userPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isAdminUser">
+                                <label class="form-check-label" for="isAdminUser">
+                                    Admin User
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveNewUserBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<!-- Your Firebase configuration script -->
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Format current date
+    const now = new Date();
+    const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+    document.getElementById('currentDate').textContent = `Today is ${now.toLocaleDateString('en-US', options)}`;
+    
+    // Check if user is logged in and is admin
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // Verify if user is admin
+            db.collection('users').doc(user.uid).get().then(doc => {
+                if (doc.exists && doc.data().isAdmin) {
+                    // Update display name
+                    document.getElementById('userDisplayName').textContent = 
+                        doc.data().firstName || 'Admin';
+                    
+                    // Load admin dashboard data
+                    loadDashboardStats();
+                    loadPrices();
+                    setupTabNavigation();
+                } else {
+                    // Redirect non-admin users
+                    alert('You do not have access to this page.');
+                    window.location.href = 'home.html';
+                }
+            }).catch(error => {
+                console.error("Error verifying admin status:", error);
+                window.location.href = 'home.html';
+            });
+        } else {
+            // Redirect to login page if not logged in
+            window.location.href = 'login.html';
+        }
+    });
+    
+    // Logout button
+    document.getElementById('logoutButton').addEventListener('click', (e) => {
+        e.preventDefault();
+        auth.signOut().then(() => {
+            window.location.href = 'index.html';
+        }).catch(error => {
+            console.error("Error signing out:", error);
+        });
+    });
+});
+
+// Dashboard statistics
+function loadDashboardStats() {
+    // Load total orders
+    db.collection('orders').get().then(snapshot => {
+        document.getElementById('totalOrders').textContent = snapshot.size;
+        
+        // Calculate active orders
+        let activeOrders = 0;
+        let totalRevenue = 0;
+        
+        snapshot.forEach(doc => {
+            const order = doc.data();
+            
+            // Sum up total revenue
+            if (order.totalAmount) {
+                totalRevenue += order.totalAmount;
+            }
+            
+            // Count active orders (not delivered)
+            if (order.status !== 'Delivered') {
+                activeOrders++;
+            }
+        });
+        
+        // Update dashboard stats
+        document.getElementById('activeOrders').textContent = activeOrders;
+        document.getElementById('totalRevenue').textContent = `₦${totalRevenue.toLocaleString()}`;
+    }).catch(error => {
+        console.error("Error loading order statistics:", error);
+    });
+}
+
+// Tab navigation
+function setupTabNavigation() {
+    const tabs = document.querySelectorAll('.admin-tab');
+    const tabContents = {
+        'prices': document.getElementById('prices-tab'),
+        'orders': document.getElementById('orders-tab'),
+        'users': document.getElementById('users-tab'),
+        'settings': document.getElementById('settings-tab')
+    };
+    
+    // Hide all tabs except prices
+    Object.keys(tabContents).forEach(key => {
+        if (key !== 'prices' && tabContents[key]) {
+            tabContents[key].style.display = 'none';
+        }
+    });
+    
+    // Add click event to each tab
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Hide all tab contents
+            Object.values(tabContents).forEach(content => {
+                if (content) content.style.display = 'none';
+            });
+            
+            // Show selected tab content
+            const tabName = tab.getAttribute('data-tab');
+            if (tabContents[tabName]) {
+                tabContents[tabName].style.display = 'block';
+                
+                // Load tab-specific data
+                if (tabName === 'prices') loadPrices();
+                if (tabName === 'orders') loadOrders();
+                if (tabName === 'users') loadUsers();
+            }
+        });
+    });
+}
+
+// Price management
+function loadPrices() {
+    const pricesTableBody = document.getElementById('pricesTableBody');
+    pricesTableBody.innerHTML = `
+        <tr>
+            <td colspan="5" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </td>
+        </tr>
+    `;
+    
+    db.collection('prices').orderBy('name').get().then(snapshot => {
+        pricesTableBody.innerHTML = '';
+        
+        if (snapshot.empty) {
+            pricesTableBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center">No prices available</td>
+                </tr>
+            `;
+            return;
+        }
+        
+        snapshot.forEach(doc => {
+            const price = doc.data();
+            const row = document.createElement('tr');
+            
+            // Format last updated date
+            const lastUpdated = price.updatedAt ? 
+                price.updatedAt.toDate().toLocaleDateString() : 'N/A';
+            
+            row.innerHTML = `
+                <td>${price.name}</td>
+                <td>${price.category || 'General'}</td>
+                <td>₦${price.amount.toLocaleString()}</td>
+                <td>${lastUpdated}</td>
+                <td>
+                    <div class="price-actions">
+                        <button class="btn btn-sm btn-primary edit-price" data-id="${doc.id}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-price" data-id="${doc.id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            
+            pricesTableBody.appendChild(row);
+            
+            // Add event listeners for edit and delete buttons
+            row.querySelector('.edit-price').addEventListener('click', () => {
+                editPrice(doc.id, price);
+            });
+            
+            row.querySelector('.delete-price').addEventListener('click', () => {
+                deletePrice(doc.id, price.name);
+            });
+        });
+        
+        // Setup price search functionality
+        setupPriceSearch();
+    }).catch(error => {
+        console.error("Error loading prices:", error);
+        pricesTableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center text-danger">
+                    Error loading prices. Please try again.
+                </td>
+            </tr>
+        `;
+    });
+    
+    // Setup add price form
+    setupAddPriceForm();
+}
+
+function setupPriceSearch() {
+    const searchInput = document.getElementById('priceSearchInput');
+    
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = document.querySelectorAll('#pricesTableBody tr');
+        
+        rows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            const category = row.cells[1].textContent.toLowerCase();
+            
+            if (name.includes(searchTerm) || category.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+}
+
+function setupAddPriceForm() {
+    // This assumes you have a modal with id 'addPriceModal' and a form with id 'addPriceForm'
+    const addPriceForm = document.getElementById('addPriceForm');
+    
+    if (addPriceForm) {
+        addPriceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('priceName');
+            const categoryInput = document.getElementById('priceCategory');
+            const amountInput = document.getElementById('priceAmount');
+            
+            // Validate inputs
+            if (!nameInput.value || !amountInput.value) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            // Add new price to Firestore
+            db.collection('prices').add({
+                name: nameInput.value,
+                category: categoryInput.value || 'General',
+                amount: parseInt(amountInput.value),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                // Reset form and close modal
+                addPriceForm.reset();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addPriceModal'));
+                modal.hide();
+                
+                // Reload prices
+                loadPrices();
+            }).catch(error => {
+                console.error("Error adding price:", error);
+                alert('Error adding price. Please try again.');
+            });
+        });
+    }
+}
+
+function editPrice(priceId, priceData) {
+    // Populate edit modal with price data
+    // This assumes you have an edit modal with id 'editPriceModal' and related form fields
+    document.getElementById('editPriceName').value = priceData.name;
+    document.getElementById('editPriceCategory').value = priceData.category || 'General';
+    document.getElementById('editPriceAmount').value = priceData.amount;
+    document.getElementById('editPriceId').value = priceId;
+    
+    // Show edit modal
+    const editModal = new bootstrap.Modal(document.getElementById('editPriceModal'));
+    editModal.show();
+    
+    // Handle form submission
+    const editForm = document.getElementById('editPriceForm');
+    
+    // Remove any existing event listeners
+    const newEditForm = editForm.cloneNode(true);
+    editForm.parentNode.replaceChild(newEditForm, editForm);
+    
+    newEditForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const updatedPrice = {
+            name: document.getElementById('editPriceName').value,
+            category: document.getElementById('editPriceCategory').value || 'General',
+            amount: parseInt(document.getElementById('editPriceAmount').value),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        // Update price in Firestore
+        db.collection('prices').doc(priceId).update(updatedPrice)
+            .then(() => {
+                // Close modal and reload prices
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editPriceModal'));
+                modal.hide();
+                loadPrices();
+            })
+            .catch(error => {
+                console.error("Error updating price:", error);
+                alert('Error updating price. Please try again.');
+            });
+    });
+}
+
+function deletePrice(priceId, priceName) {
+    // Confirm deletion
+    if (confirm(`Are you sure you want to delete ${priceName}?`)) {
+        db.collection('prices').doc(priceId).delete()
+            .then(() => {
+                // Reload prices
+                loadPrices();
+            })
+            .catch(error => {
+                console.error("Error deleting price:", error);
+                alert('Error deleting price. Please try again.');
+            });
+    }
+}
+
+// Order management
+function loadOrders() {
+    // This needs to be implemented if you have an orders tab
+    const ordersContent = `
+        <div class="card">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Manage Orders</h5>
+                <div>
+                    <select class="form-select" id="orderStatusFilter">
+                        <option value="all">All Orders</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Ready">Ready for Pickup</option>
+                        <option value="Delivered">Delivered</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table" id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('orders-tab').innerHTML = ordersContent;
+    
+    // Load orders from Firestore
+    fetchOrdersData();
+    
+    // Setup status filter
+    const statusFilter = document.getElementById('orderStatusFilter');
+    statusFilter.addEventListener('change', fetchOrdersData);
+}
+
+function fetchOrdersData() {
+    const ordersTableBody = document.getElementById('ordersTableBody');
+    const statusFilter = document.getElementById('orderStatusFilter');
+    const filterValue = statusFilter.value;
+    
+    let query = db.collection('orders').orderBy('createdAt', 'desc');
+    
+    if (filterValue !== 'all') {
+        query = query.where('status', '==', filterValue);
+    }
+    
+    query.get().then(async snapshot => {
+        ordersTableBody.innerHTML = '';
+        
+        if (snapshot.empty) {
+            ordersTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center">No orders found</td>
+                </tr>
+            `;
+            return;
+        }
+        
+        // Process each order
+        for (const doc of snapshot.docs) {
+            const order = doc.data();
+            const row = document.createElement('tr');
+            
+            // Get customer info
+            let customerName = 'Unknown';
+            if (order.userId) {
+                try {
+                    const userDoc = await db.collection('users').doc(order.userId).get();
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        customerName = userData.firstName + ' ' + (userData.lastName || '');
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            }
+            
+            // Format date
+            const orderDate = order.createdAt ? 
+                order.createdAt.toDate().toLocaleDateString() : 'N/A';
+            
+            // Determine status badge
+            let statusBadgeClass = '';
+            switch(order.status) {
+                case 'Ready':
+                    statusBadgeClass = 'bg-success';
+                    break;
+                case 'Processing':
+                    statusBadgeClass = 'bg-warning text-dark';
+                    break;
+                case 'Delivered':
+                    statusBadgeClass = 'bg-secondary';
+                    break;
+                default:
+                    statusBadgeClass = 'bg-info';
+            }
+            
+            row.innerHTML = `
+                <td>${doc.id.substring(0, 8)}...</td>
+                <td>${customerName}</td>
+                <td>${orderDate}</td>
+                <td>₦${order.totalAmount ? order.totalAmount.toLocaleString() : '0'}</td>
+                <td><span class="badge ${statusBadgeClass}">${order.status}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-primary view-order" data-id="${doc.id}">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-success update-status" data-id="${doc.id}" data-status="${order.status}">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </td>
+            `;
+            
+            ordersTableBody.appendChild(row);
+            
+            // Add event listeners
+            row.querySelector('.view-order').addEventListener('click', () => {
+                viewOrderDetails(doc.id, order);
+            });
+            
+            row.querySelector('.update-status').addEventListener('click', () => {
+                updateOrderStatus(doc.id, order);
+            });
+        }
+    }).catch(error => {
+        console.error("Error loading orders:", error);
+        ordersTableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-danger">
+                    Error loading orders. Please try again.
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function viewOrderDetails(orderId, orderData) {
+    // Implement view order details functionality
+    // This might involve a modal or redirect to a detailed view
+    alert(`View order details for ${orderId} (implement this)`);
+}
+
+function updateOrderStatus(orderId, orderData) {
+    // Get next status
+    let nextStatus = 'Processing';
+    
+    switch(orderData.status) {
+        case 'Processing':
+            nextStatus = 'Ready';
+            break;
+        case 'Ready':
+            nextStatus = 'Delivered';
+            break;
+        case 'Delivered':
+            nextStatus = 'Processing'; // Cycle back if needed
+            break;
+    }
+    
+    // Confirm status update
+    if (confirm(`Update order status from ${orderData.status} to ${nextStatus}?`)) {
+        db.collection('orders').doc(orderId).update({
+            status: nextStatus,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            // Refresh orders list
+            fetchOrdersData();
+        }).catch(error => {
+            console.error("Error updating order status:", error);
+            alert('Error updating order status. Please try again.');
+        });
+    }
+}
+
+// User management
+function loadUsers() {
+    // This needs to be implemented if you have a users tab
+    const usersContent = `
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Manage Users</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="userSearchInput" placeholder="Search users...">
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Member Since</th>
+                                <th>Orders</th>
+                                <th>Admin</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('users-tab').innerHTML = usersContent;
+    
+    // Load users from Firestore
+    db.collection('users').get().then(async snapshot => {
+        const usersTableBody = document.getElementById('usersTableBody');
+        usersTableBody.innerHTML = '';
+        
+        if (snapshot.empty) {
+            usersTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center">No users found</td>
+                </tr>
+            `;
+            return;
+        }
+        
+        // Process each user
+        for (const doc of snapshot.docs) {
+            const user = doc.data();
+            const row = document.createElement('tr');
+            
+            // Get order count
+            let orderCount = 0;
+            try {
+                const ordersSnapshot = await db.collection('orders')
+                    .where('userId', '==', doc.id)
+                    .get();
+                orderCount = ordersSnapshot.size;
+            } catch (error) {
+                console.error("Error counting user orders:", error);
+            }
+            
+            // Format creation date
+            const createdAt = user.createdAt ? 
+                user.createdAt.toDate().toLocaleDateString() : 'N/A';
+            
+            // Create full name
+            const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'N/A';
+            
+            row.innerHTML = `
+                <td>${fullName}</td>
+                <td>${user.email || 'N/A'}</td>
+                <td>${createdAt}</td>
+                <td>${orderCount}</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input admin-toggle" type="checkbox" 
+                            ${user.isAdmin ? 'checked' : ''} data-id="${doc.id}">
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-primary view-user" data-id="${doc.id}">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </td>
+            `;
+            
+            usersTableBody.appendChild(row);
+            
+            // Add event listeners
+            row.querySelector('.admin-toggle').addEventListener('change', (e) => {
+                toggleAdminStatus(doc.id, e.target.checked);
+            });
+            
+            row.querySelector('.view-user').addEventListener('click', () => {
+                viewUserDetails(doc.id, user);
+            });
+        }
+        
+        // Setup user search
+        setupUserSearch();
+    }).catch(error => {
+        console.error("Error loading users:", error);
+        document.getElementById('usersTableBody').innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-danger">
+                    Error loading users. Please try again.
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function setupUserSearch() {
+    const searchInput = document.getElementById('userSearchInput');
+    
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = document.querySelectorAll('#usersTableBody tr');
+        
+        rows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            const email = row.cells[1].textContent.toLowerCase();
+            
+            if (name.includes(searchTerm) || email.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+}
+
+function toggleAdminStatus(userId, isAdmin) {
+    db.collection('users').doc(userId).update({
+        isAdmin: isAdmin
+    }).then(() => {
+        // Success notification could be added here
+    }).catch(error => {
+        console.error("Error updating admin status:", error);
+        alert('Error updating admin status. Please try again.');
+        // Reset the checkbox to its previous state
+        const checkbox = document.querySelector(`.admin-toggle[data-id="${userId}"]`);
+        if (checkbox) checkbox.checked = !isAdmin;
+    });
+}
+
+function viewUserDetails(userId, userData) {
+    // Implement view user details functionality
+    alert(`View user details for ${userData.firstName || 'User'} (implement this)`);
+}
+
+// Settings tab content
+function loadSettings() {
+    const settingsContent = `
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Settings</h5>
+            </div>
+            <div class="card-body">
+                <h6>System Settings</h6>
+                <form id="settingsForm">
+                    <div class="mb-3">
+                        <label for="businessName" class="form-label">Business Name</label>
+                        <input type="text" class="form-control" id="businessName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Contact Email</label>
+                        <input type="email" class="form-control" id="contactEmail">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('settings-tab').innerHTML = settingsContent;
+    
+    // Load current settings
+    db.collection('settings').doc('general').get().then(doc => {
+        if (doc.exists) {
+            const settings = doc.data();
+            document.getElementById('businessName').value = settings.businessName || '';
+            document.getElementById('contactEmail').value = settings.contactEmail || '';
+        }
+    }).catch(error => {
+        console.error("Error loading settings:", error);
+    });
+    
+    // Handle settings form submission
+    const settingsForm = document.getElementById('settingsForm');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const settings = {
+                businessName: document.getElementById('businessName').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            db.collection('settings').doc('general').set(settings, { merge: true })
+                .then(() => {
+                    alert('Settings saved successfully!');
+                })
+                .catch(error => {
+                    console.error("Error saving settings:", error);
+                    alert('Error saving settings. Please try again.');
+                });
+        });
+    }
+}
+
+</script>
+
+</body>
+</html>

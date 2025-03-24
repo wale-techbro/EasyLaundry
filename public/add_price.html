@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Laundry Services - Add Price</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="img/favicon.ico">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            padding-top: 80px;
+        }
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border: none;
+        }
+        .price-banner {
+            background-color: #4363ff;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            background-color: #ff6b33;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #e55a28;
+            transform: translateY(-2px);
+        }
+        .delete-btn {
+            color: #dc3545;
+            cursor: pointer;
+        }
+        .edit-btn {
+            color: #0d6efd;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .table th {
+            font-weight: 600;
+            color: #495057;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img class="logo" src="img/easylnd.png" alt="Easy Laundry Services" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">My Laundry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">Admin Panel</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="me-3" id="userDisplayName">Admin</span>
+                    <a id="logoutButton" class="btn btn-outline-primary" href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="price-banner">
+            <h2>Manage Price List</h2>
+            <p>Add, edit, or remove items from your laundry service price list.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0" id="formTitle">Add New Price Item</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="priceForm">
+                            <input type="hidden" id="editId" value="">
+                            <div class="mb-3">
+                                <label for="priceName" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" id="priceName" required>
+                                <small class="text-muted">Example: Shirt (Per Piece), Bed Sheet, etc.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="priceAmount" class="form-label">Price Amount (₦)</label>
+                                <input type="number" class="form-control" id="priceAmount" min="0" step="50" required>
+                                <small class="text-muted">Enter amount in Naira without symbols</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="priceCategory" class="form-label">Category</label>
+                                <select class="form-select" id="priceCategory" required>
+                                    <option value="">Select a category</option>
+                                    <option value="Regular">Regular Items</option>
+                                    <option value="Premium">Premium Items</option>
+                                    <option value="Bedding">Bedding & Linens</option>
+                                    <option value="Household">Household Items</option>
+                                    <option value="Special">Special Care</option>
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" id="cancelButton" class="btn back-btn" style="display: none;">Cancel</button>
+                                <button type="submit" class="btn submit-btn" id="submitButton">Add Price</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Quick Tips</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Keep names clear and descriptive</li>
+                            <li class="list-group-item">Use consistent pricing for similar items</li>
+                            <li class="list-group-item">Categories help customers find items easily</li>
+                            <li class="list-group-item">Review pricing regularly to stay competitive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Current Price List</h5>
+                        <a href="home.html" class="btn back-btn">Back to Dashboard</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle" id="priceTable">
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="priceTableBody">
+                                    <!-- Price items will be added here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="noPrices" class="text-center py-3" style="display: none;">
+                            <p class="text-muted">No price items available. Add your first item!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- Your Firebase configuration script -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is logged in
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // Get user data
+        db.collection('users').doc(user.uid).get().then(doc => {
+            if (doc.exists) {
+                const userData = doc.data();
+
+                // Update display name
+                if (userData.firstName) {
+                    document.getElementById('userDisplayName').textContent = userData.firstName;
+                }
+            }
+        }).catch(error => {
+            console.error("Error getting user data:", error);
+        });
+
+        // Load price list
+        loadPriceList();
+    } else {
+        // Redirect to login page if not logged in
+        window.location.href = 'login.html';
+    }
+});
+            
+            // Logout button
+            document.getElementById('logoutButton').addEventListener('click', (e) => {
+                e.preventDefault();
+                auth.signOut().then(() => {
+                    window.location.href = 'index.html';
+                }).catch(error => {
+                    console.error("Error signing out:", error);
+                });
+            });
+            
+            // Form submission for adding/editing prices
+            document.getElementById('priceForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('priceName').value.trim();
+                const amount = parseFloat(document.getElementById('priceAmount').value);
+                const category = document.getElementById('priceCategory').value;
+                const editId = document.getElementById('editId').value;
+                
+                const priceData = {
+                    name: name,
+                    amount: amount,
+                    category: category,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Check if editing or adding new
+                if (editId) {
+                    // Update existing price
+                    db.collection('prices').doc(editId).update(priceData)
+                        .then(() => {
+                            resetForm();
+                            loadPriceList();
+                            alert('Price updated successfully!');
+                        })
+                        .catch(error => {
+                            console.error("Error updating price:", error);
+                            alert('Error updating price. Please try again.');
+                        });
+                } else {
+                    // Add new price
+                    priceData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    
+                    db.collection('prices').add(priceData)
+                        .then(() => {
+                            resetForm();
+                            loadPriceList();
+                            alert('Price added successfully!');
+                        })
+                        .catch(error => {
+                            console.error("Error adding price:", error);
+                            alert('Error adding price. Please try again.');
+                        });
+                }
+            });
+            
+            // Cancel button for editing
+            document.getElementById('cancelButton').addEventListener('click', () => {
+                resetForm();
+            });
+        });
+        
+        // Load price list from Firestore
+        function loadPriceList() {
+            db.collection('prices')
+                .orderBy('category')
+                .orderBy('name')
+                .get()
+                .then(snapshot => {
+                    const priceTableBody = document.getElementById('priceTableBody');
+                    const noPrices = document.getElementById('noPrices');
+                    
+                    priceTableBody.innerHTML = '';
+                    
+                    if (snapshot.empty) {
+                        noPrices.style.display = 'block';
+                        return;
+                    }
+                    
+                    noPrices.style.display = 'none';
+                    
+                    snapshot.forEach(doc => {
+                        const price = doc.data();
+                        const row = document.createElement('tr');
+                        
+                        row.innerHTML = `
+                            <td>${price.name}</td>
+                            <td>${price.category || 'Regular'}</td>
+                            <td>₦${price.amount.toLocaleString()}</td>
+                            <td>
+                                <span class="edit-btn" data-id="${doc.id}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </span>
+                                <span class="delete-btn" data-id="${doc.id}">
+                                    <i class="bi bi-trash"></i>
+                                </span>
+                            </td>
+                        `;
+                        
+                        priceTableBody.appendChild(row);
+                    });
+                    
+                    // Add event listeners for edit and delete buttons
+                    document.querySelectorAll('.edit-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const id = e.currentTarget.getAttribute('data-id');
+                            editPrice(id);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const id = e.currentTarget.getAttribute('data-id');
+                            deletePrice(id);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error("Error loading price list:", error);
+                });
+        }
+        
+        // Function to edit a price
+        function editPrice(id) {
+            db.collection('prices').doc(id).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const price = doc.data();
+                        
+                        // Fill form with current values
+                        document.getElementById('priceName').value = price.name;
+                        document.getElementById('priceAmount').value = price.amount;
+                        document.getElementById('priceCategory').value = price.category || 'Regular';
+                        document.getElementById('editId').value = id;
+                        
+                        // Update form UI
+                        document.getElementById('formTitle').textContent = 'Edit Price Item';
+                        document.getElementById('submitButton').textContent = 'Update Price';
+                        document.getElementById('cancelButton').style.display = 'block';
+                        
+                        // Scroll to form
+                        document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error getting price to edit:", error);
+                });
+        }
+        
+        // Function to delete a price
+        function deletePrice(id) {
+            if (confirm('Are you sure you want to delete this price item? This action cannot be undone.')) {
+                db.collection('prices').doc(id).delete()
+                    .then(() => {
+                        loadPriceList();
+                        alert('Price deleted successfully!');
+                    })
+                    .catch(error => {
+                        console.error("Error deleting price:", error);
+                        alert('Error deleting price. Please try again.');
+                    });
+            }
+        }
+        
+        // Reset form after submission or cancel
+        function resetForm() {
+            document.getElementById('priceForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('formTitle').textContent = 'Add New Price Item';
+            document.getElementById('submitButton').textContent = 'Add Price';
+            document.getElementById('cancelButton').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

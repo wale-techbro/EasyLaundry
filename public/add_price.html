@@ -213,13 +213,11 @@ auth.onAuthStateChanged(user => {
                 
                 const name = document.getElementById('priceName').value.trim();
                 const amount = parseFloat(document.getElementById('priceAmount').value);
-                const category = document.getElementById('priceCategory').value;
                 const editId = document.getElementById('editId').value;
                 
                 const priceData = {
                     name: name,
                     amount: amount,
-                    category: category,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 
@@ -262,7 +260,6 @@ auth.onAuthStateChanged(user => {
         // Load price list from Firestore
         function loadPriceList() {
             db.collection('prices')
-                .orderBy('category')
                 .orderBy('name')
                 .get()
                 .then(snapshot => {
@@ -284,7 +281,6 @@ auth.onAuthStateChanged(user => {
                         
                         row.innerHTML = `
                             <td>${price.name}</td>
-                            <td>${price.category || 'Regular'}</td>
                             <td>₦${price.amount.toLocaleString()}</td>
                             <td>
                                 <span class="edit-btn" data-id="${doc.id}">
@@ -329,7 +325,6 @@ auth.onAuthStateChanged(user => {
                         // Fill form with current values
                         document.getElementById('priceName').value = price.name;
                         document.getElementById('priceAmount').value = price.amount;
-                        document.getElementById('priceCategory').value = price.category || 'Regular';
                         document.getElementById('editId').value = id;
                         
                         // Update form UI

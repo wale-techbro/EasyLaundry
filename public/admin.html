@@ -585,34 +585,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
     document.getElementById('currentDate').textContent = `Today is ${now.toLocaleDateString('en-US', options)}`;
     
-    // Check if user is logged in and is admin
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // Verify if user is admin
-            db.collection('users').doc(user.uid).get().then(doc => {
-                if (doc.exists && doc.data().isAdmin) {
-                    // Update display name
-                    document.getElementById('userDisplayName').textContent = 
-                        doc.data().firstName || 'Admin';
-                    
-                    // Load admin dashboard data
-                    loadDashboardStats();
-                    loadPrices();
-                    setupTabNavigation();
-                } else {
-                    // Redirect non-admin users
-                    alert('You do not have access to this page.');
-                    window.location.href = 'home.html';
-                }
-            }).catch(error => {
-                console.error("Error verifying admin status:", error);
-                window.location.href = 'home.html';
-            });
-        } else {
-            // Redirect to login page if not logged in
-            window.location.href = 'login.html';
-        }
-    });
+    // Check if user is logged in
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // Update display name
+        document.getElementById('userDisplayName').textContent = user.email || 'User';
+        
+        // Load admin dashboard data
+        loadDashboardStats();
+        loadPrices();
+        setupTabNavigation();
+    } else {
+        // Redirect to login page if not logged in
+        window.location.href = 'login.html';
+    }
+});
+
     
     // Logout button
     document.getElementById('logoutButton').addEventListener('click', (e) => {

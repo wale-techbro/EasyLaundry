@@ -255,6 +255,8 @@
                         </ul>
                     </div>
                 </div>
+                
+
             </div>
         </div>
     </div>
@@ -438,33 +440,31 @@
         
         // Load price list from Firestore
         function loadPriceList() {
-            db.collection('prices')
-                .orderBy('name')
-                .get()
-                .then(snapshot => {
-                    const pricesList = document.getElementById('pricesList');
-                    pricesList.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        pricesList.innerHTML = '<li class="list-group-item">No prices available</li>';
-                        return;
-                    }
-                    
-                    snapshot.forEach(doc => {
-                        const price = doc.data();
-                        const listItem = document.createElement('li');
-                        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                        listItem.innerHTML = `
-                            <span>${price.name}</span>
-                            <span class="badge bg-primary rounded-pill">₦${price.amount.toLocaleString()}</span>
-                        `;
-                        pricesList.appendChild(listItem);
-                    });
-                })
-                .catch(error => {
-                    console.error("Error loading price list:", error);
-                });
-        }
+    const pricesList = document.getElementById('pricesList');
+    pricesList.innerHTML = ''; // Clear existing list
+
+    db.collection('prices').get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                const priceData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+                listItem.innerHTML = `
+                    <span>${priceData.itemName} (${priceData.category})</span>
+                    <span class="badge bg-primary rounded-pill">₦${priceData.price}</span>
+                `;
+
+                pricesList.appendChild(listItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading prices:', error);
+        });
+}
+
+// Call function after DOM is loaded
+document.addEventListener('DOMContentLoaded', loadPriceList);
     </script>
 </body>
 </html>

@@ -250,13 +250,19 @@
                         <h5 class="mb-0">Our Prices</h5>
                     </div>
                     <div class="card-body">
-                        <ul class="list-group list-group-flush" id="pricesList">
-                            <!-- Prices will be loaded dynamically from Firebase -->
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">T-shirt - ₦500</li>
+                            <li class="list-group-item">Pants - ₦1000</li>
+                            <li class="list-group-item">Shorts - ₦500</li>
+                            <li class="list-group-item">Undies - ₦500</li>
+                            <li class="list-group-item">Bed Covers - ₦500</li>
+                            <li class="list-group-item">Native Wears - ₦500</li>
+                            <li class="list-group-item">Office Suits - ₦3500</li>
                         </ul>
                     </div>
                 </div>
                 
-
+                
             </div>
         </div>
     </div>
@@ -437,34 +443,6 @@
                 tableBody.appendChild(row);
             });
         }
-        
-        // Load price list from Firestore
-        function loadPriceList() {
-    const pricesList = document.getElementById('pricesList');
-    pricesList.innerHTML = ''; // Clear existing list
-
-    db.collection('prices').get()
-        .then(snapshot => {
-            snapshot.forEach(doc => {
-                const priceData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-                listItem.innerHTML = `
-                    <span>${priceData.itemName} (${priceData.category})</span>
-                    <span class="badge bg-primary rounded-pill">₦${priceData.price}</span>
-                `;
-
-                pricesList.appendChild(listItem);
-            });
-        })
-        .catch(error => {
-            console.error('Error loading prices:', error);
-        });
-}
-
-// Call function after DOM is loaded
-document.addEventListener('DOMContentLoaded', loadPriceList);
     </script>
 </body>
 </html>

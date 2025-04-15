@@ -80,9 +80,6 @@
                         <a class="nav-link" href="home.html">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="orders.html">Orders</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact Us</a>
                     </li>
                 </ul>
@@ -113,11 +110,6 @@
                                 <label for="orderID" class="form-label">Order ID</label>
                                 <input type="text" class="form-control" id="orderID" readonly>
                                 <small class="form-text text-muted">Auto-generated order ID.</small>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="orderDate" class="form-label">Date</label>
-                                <input type="date" class="form-control" id="orderDate" required>
                             </div>
 
                             <div class="mb-3">
@@ -155,10 +147,9 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="orderStatus" class="form-label">Status</label>
+                                <label for="orderStatus" class="form-label">Start Washing</label>
                                 <select class="form-select" id="orderStatus" required>
-                                    <option value="processing">Processing</option>
-                                    <option value="completed">Completed</option>
+                                    <option value="processing">Start Washing Immediately</option>
                                 </select>
                             </div>
     
@@ -207,9 +198,6 @@
         
         // Initialize form when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            // Set current date
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('orderDate').value = today;
             
             // Generate and set order ID
             document.getElementById('orderID').value = generateOrderID();
@@ -294,13 +282,11 @@
             }
             
             const orderID = document.getElementById('orderID').value;
-            const orderDate = document.getElementById('orderDate').value;
             const orderStatus = document.getElementById('orderStatus').value;
             
             try {
                 await db.collection("laundryItems").add({
                     orderID: orderID,
-                    date: orderDate,
                     items: items,
                     price: totalPrice,
                     status: orderStatus,
@@ -314,7 +300,7 @@
                 
                 // Reset form after successful submission
                 setTimeout(() => {
-                    window.location.href = 'orders.html';
+                    window.location.href = 'home.html';
                 }, 2000);
                 
             } catch (error) {
